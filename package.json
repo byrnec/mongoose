@@ -1,0 +1,32 @@
+{
+  "name": "mongoose_skeleton",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^5.4.5",
+    "morgan": "^1.9.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byrnec/mongoose.git"
+  },
+  "bugs": {
+    "url": "https://github.com/byrnec/mongoose/issues"
+  },
+  "homepage": "https://github.com/byrnec/mongoose#readme",
+  "description": "Mongoose-Scraper A web app that lets users view and leave comments on the latest news. This full-stack application allows a client to scrape headlines, links, and (if available) excerpts from the Daily Universe website. The client can then save the articles in a database, delete saved articles, make notes on specific articles, and delete those notes."
+}
