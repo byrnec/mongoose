@@ -1,12 +1,12 @@
 body { 
-  /* background-image: url(images/xx.jpg);  */
+  background-image: url(images/china_hills.jpg);  
   background-size: 100% auto; 
   background-size: cover;
-  color: aliceblue;
+  color: blue;
   display: -webkit-box;
   margin: auto;
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-  text-align: center
+
 }
 
 h1 {
@@ -52,7 +52,7 @@ textarea {
   width: 400px;
   height: 400px;
   background-repeat: no-repeat, repeat;
-  /* background-image: url(images/logo.jpg),; */
+  background-image: url(images/blue_purple.jpg);
   background-blend-mode: lighten;
 }
 a

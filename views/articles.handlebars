@@ -35,8 +35,8 @@
             {{#each data.note}}
               <hr>
               <button data-id={{this._id}} class="delete-note" style="padding: 5px 10px; float:right">Delete</button>
-              <h4><strong>{{this.title}}</strong></h4>
-              <h5>{{this.body}}</h5>
+              <h4><strong>{{data.note.title}}</strong></h4>
+              <h5>{{data.note.body}}</h5>
               <hr>
             {{/each}}
           {{else}}

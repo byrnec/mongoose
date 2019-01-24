@@ -40,13 +40,15 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, {useNewUrlParser: true });
 var results = [];
 
 // Routes
 
 app.get("/", function(req, res) {
-    res.render("index");
+  db.Article.find({}).then(function(articles) {
+    res.render("index", {articles: articles});
+  })
 });
 
 
@@ -54,16 +56,11 @@ app.get("/", function(req, res) {
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
-  axios.get("http://www.echojs.com/").then(function(error, response, html) {
-    if (!error && response.statusCode == 200) {
-      // console.log(html);
-    }
-// Then, we load that into cheerio and save it to $ for a shorthand selector
-var $ = cheerio.load(html, {
-  xml: {
-    normalizeWhitespace: true,
-  }
-})
+  axios.get("http://www.echojs.com/").then(function(response) {
+   
+  // load cheerio
+     var $ = cheerio.load(response.data);
+
     // Now, we grab every h2 within an article tag, and do the following:
     $("article h2").each(function(i, element) {
       // Save an empty result object
@@ -77,8 +74,9 @@ var $ = cheerio.load(html, {
         .children("a")
         .attr("href");
         // result.excerpt = $(element).parent().children(".td-excerpt").text().trim();
-      if (!found && result.title && result.link){
+      if (result.title && result.link){
         results.push(result);
+        
      }
 
       // Create a new Article using the `result` object built from scraping
@@ -91,20 +89,16 @@ var $ = cheerio.load(html, {
           // If an error occurred, log it
           console.log(err);
         });
-    });
-
-    // Send a message to the client
-    res.send("Scrape Complete");
-    res.render("scrape", {
-      articles: results
-    });
-  });
+      })
+      res.send("Scrape Complete");
+      
+      });
 });
 
 // Route for getting all Articles from the db
 app.get("/saved", function(req, res) {
   // Grab every document in the Articles collection
-  db.Article.find({})
+  db.Article.find({saved:true})
     .then(function(dbArticle) {
       console.log(dbArticle);
       res.render("saved", {
@@ -117,11 +111,12 @@ app.get("/saved", function(req, res) {
     });
 });
 
-// Route for creating an Article in the db
-app.post("/api/saved", function(req, res) {
-  db.Article.create(req.body)
+// Route for updating an Article's saved property in DB
+app.post("/api/saved/:id", function(req, res) {
+  db.Article.findOneAndUpdate({_id:req.params.id}, {$set:{saved:true}})
     .then(function(dbArticle) {
       res.json(dbArticle);
+      console.log(dbArticle)
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
@@ -140,6 +135,7 @@ app.get("/articles/:id", function(req, res) {
       // If we were able to successfully find an Article with the given id, send it back to the client
       console.log(dbArticle);
       if (dbArticle) {
+        console.log(dbArticle)
       res.render("articles", {
         data: dbArticle
       });
