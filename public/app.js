@@ -33,15 +33,16 @@ $(document).on("click", ".save-article", function () {
   var thisId = $(this).attr("data-id");
   // $(this).hide();
   // var data = {}
-  // data.title =  $("#title-" + thisId).text();
-  // data.link = $("#link-" + thisId).text();
+  data.title =  $("#title-" + thisId).text();
+  data.link = $("#link-" + thisId).text();
+  // data.excerpt = $("#excerpt-" + thisId).text();
   // $.ajax({
   //   method: "POST",
   //   dataType: "json",
   //   url: "/api/saved",
   //   data: data
   // })
-  $.post("/api/saved/" + thisId)
+  $.post("/api/saved/")
     .then(function (data) {
       // Log the response
       console.log(data);
